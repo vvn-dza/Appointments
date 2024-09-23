@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     VideoView v;
     String selectedDate,cur_date;
     boolean f=true;
-        Button b,date;
+    Button b,date;
     String time;
-    String[] timings = {"10 A.M - 11 A.M","11.30 A.M - 12.30 P.M","2 P.M - 3 P.M","4 P.M - 5 P.M","6 P.M - 7 P.M"};
+    String[] timings = {"10 A.M - 11 A.M","11 A.M - 12 P.M","12 P.M - 1 P.M","1 P.M - 2 P.M","2 P.M - 3 P.M","3 P.M - 4 P.M","4 P.M - 5 P.M","5 P.M - 6 P.M","6 P.M - 7 P.M"};
 
     static Map<String,String> register = new HashMap<>();
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(), "Message Not Sent :(",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Appointment Booking Unsuccessful :(",Toast.LENGTH_LONG).show();
 
         }
     }
@@ -87,69 +87,69 @@ public class MainActivity extends AppCompatActivity {
 
         //Spinner - Timings
 
-                s = findViewById(R.id.spinner);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                         android.R.layout.simple_spinner_item,timings);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                s.setAdapter(adapter);
+        s = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,timings);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
 
-                s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        time = parent.getItemAtPosition(position).toString();
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                time = parent.getItemAtPosition(position).toString();
 
-                    }
+            }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
-         //Button - Date picker
+        //Button - Date picker
 
-            date=findViewById(R.id.button2);
-            date.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Calendar calendar = Calendar.getInstance();
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH);
-                    int day = calendar.get(Calendar.DAY_OF_MONTH);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    cur_date = sdf.format(calendar.getTime());
+        date=findViewById(R.id.button2);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                cur_date = sdf.format(calendar.getTime());
 
 
 
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
-                                    Date c_date = null;
-                                    Date s_date = null;
-                                    try {
-                                        c_date = sdf.parse(cur_date);
-                                         s_date = sdf.parse(selectedDate);
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    if(s_date.compareTo(c_date)>0)
-                                    {
-                                        date.setText(selectedDate);
-                                        f=true;
-                                    }
-                                    else
-                                    {
-                                        date.setText("Invalid Date");
-                                        f=false;
-                                    }
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                Date c_date = null;
+                                Date s_date = null;
+                                try {
+                                    c_date = sdf.parse(cur_date);
+                                    s_date = sdf.parse(selectedDate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
-                            }, year, month, day);
 
-                    datePickerDialog.show();
-                }
-            });
+                                if(s_date.compareTo(c_date)>0)
+                                {
+                                    date.setText(selectedDate);
+                                    f=true;
+                                }
+                                else
+                                {
+                                    date.setText("Invalid Date");
+                                    f=false;
+                                }
+                            }
+                        }, year, month, day);
+
+                datePickerDialog.show();
+            }
+        });
 
 
 
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //Disease
                 if(!di.getText().toString().trim().equals("")){ disease = di.getText().toString(); d=true;}
-                else { Toast.makeText(MainActivity.this, "Enter Disease :(",Toast.LENGTH_SHORT).show();
+                else { Toast.makeText(MainActivity.this, "Enter Details :(",Toast.LENGTH_SHORT).show();
                     d=false;}
 
                 message="--- MEPCO CLINIC ---\n\n";
@@ -188,15 +188,15 @@ public class MainActivity extends AppCompatActivity {
                     if(selectedDate.equals(entry.getValue())&&time.equals(entry.getKey()))
                     {
                         f=false;
-                        Toast.makeText(getApplicationContext(),"Already Booked :)",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext()," Slot Already Booked :)",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                       f=true;
+                        f=true;
                     }
                 }
 
-              if(p&&f&&d&&n)  sendMessage();
+                if(p&&f&&d&&n)  sendMessage();
 
             }
         });
